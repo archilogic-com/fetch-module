@@ -14,18 +14,16 @@
   window.___modules = window.___modules || {}
 
   function fetchModule (url) {
-    // return module if it has been loaded already
-    if (window.___modules[url]) {
-      return window.___modules[url].promise
-
-    } else {
-    // load code and use module wrapper
+    
+    if (!window.___modules[url]) {
+    
+      // create module container
       window.___modules[url] = { module: { exports: {} } }
+      // load code
       window.___modules[url].promise = fetch(url).then(function(response){
         return response.text()
       }).then(function(code){
-
-        var moduleWrapper
+				var moduleWrapper
         // check module type (i know this can be improved. help is welcome)
         if (code.indexOf('define(function()') > -1) {
           // AMD
@@ -34,7 +32,7 @@
           // CommonJS
           moduleWrapper = '(function(){ var module = window.___modules["'+url+'"].module, exports = module.exports; '+code+'\n})()'
         }
-
+				// create script element inside head tag
         var script = document.createElement('script')
         try {
           script.appendChild(document.createTextNode(moduleWrapper))
@@ -43,13 +41,15 @@
           script.text = moduleWrapper
           document.body.appendChild(script)
         }
-
-        return window.___modules[url]
+				// return reference to module
+        return window.___modules[url].module.exports
       })
     }
+    
+    return window.___modules[url].promise
   }
   
   if (module) module.exports = fetchModule
   window.fetchModule = fetchModule
   
-})( window, typeof module !== 'undefined' && module.exports ? module : null );
+})(window, typeof module !== 'undefined' && module.exports ? module : null );
