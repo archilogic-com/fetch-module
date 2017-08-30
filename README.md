@@ -11,13 +11,15 @@ Load JS Modules in browser on demand (basic AMD and CommonJS support)
 <head>
   <script src="https://rawgit.com/archilogic-com/fetch-module/master/fetch-module.js"></script>
 </head>
-<script>
-  var pakoDeflateUrl = 'https://cdnjs.cloudflare.com/ajax/libs/pako/1.0.5/pako_deflate.min.js'
-  
-  fetchModule(pakoDeflateUrl).then(function(pakoDeflate){
-    console.log(pakoDeflate)
-  })
-</script>
+<body>
+  <script>
+    var pakoDeflateUrl = 'https://cdnjs.cloudflare.com/ajax/libs/pako/1.0.5/pako_deflate.min.js'
+
+    fetchModule(pakoDeflateUrl).then(function(pakoDeflate){
+      console.log(pakoDeflate)
+    })
+  </script>
+</body>
 ```
 [Run Example](https://jsfiddle.net/3dio/o1xz594y/)
 
@@ -29,64 +31,65 @@ Using `gzipFile` function will load the `deflate` module from [pako library](htt
 <head>
   <script src="https://rawgit.com/archilogic-com/fetch-module/master/fetch-module.js"></script>
 </head>
+<body>
+  <p>
+    Loads a <a target="_blank" href="https://storage.3d.io/archilogic/test.txt">text file</a> and creates a gzipped version for download.
+  </p>
 
-<p>
-  Loads a <a target="_blank" href="https://storage.3d.io/archilogic/test.txt">text file</a> and creates a gzipped version for download.
-</p>
+  <p>
+    <span id="loading">Loading ...</span>
+    <a id="download-link" download="compressed-text-file.gz" style="display:none;">Download compressed file</a>
+  </p>
 
-<p>
-  <span id="loading">Loading ...</span>
-  <a id="download-link" download="compressed-text-file.gz" style="display:none;">Download compressed file</a>
-</p>
+  <script>
 
-<script>
+    // demo
 
-  // demo
+    fetch('https://storage.3d.io/archilogic/test.txt')
+      .then(function(response){
+        return response.blob()
+      })
+      .then(gzipFile)
+      .then(function(compressedBlob){
+        var objectUrl = window.URL.createObjectURL(compressedBlob)
+        var loading = document.querySelector('#loading')
+        loading.style.display = 'none'
+        var downloadLink = document.querySelector('#download-link')
+        downloadLink.setAttribute('href', objectUrl)
+        downloadLink.style.display = 'inline'
+      })
 
-  fetch('https://storage.3d.io/archilogic/test.txt')
-    .then(function(response){
-      return response.blob()
-    })
-    .then(gzipFile)
-    .then(function(compressedBlob){
-      var objectUrl = window.URL.createObjectURL(compressedBlob)
-      var loading = document.querySelector('#loading')
-      loading.style.display = 'none'
-      var downloadLink = document.querySelector('#download-link')
-      downloadLink.setAttribute('href', objectUrl)
-      downloadLink.style.display = 'inline'
-    })
+    // methods
 
-  // methods
+    var pakoDeflateUrl = 'https://cdnjs.cloudflare.com/ajax/libs/pako/1.0.5/pako_deflate.min.js'
 
-  var pakoDeflateUrl = 'https://cdnjs.cloudflare.com/ajax/libs/pako/1.0.5/pako_deflate.min.js'
+    function gzipFile (blob) {
+      return fetchModule(pakoDeflateUrl).then(function(pakoDeflate){
+        return readFileAsBuffer(blob).then(pakoDeflate.gzip).then(createFileFromBuffer)   
+      })
+    }
 
-  function gzipFile (blob) {
-    return fetchModule(pakoDeflateUrl).then(function(pakoDeflate){
-      return readFileAsBuffer(blob).then(pakoDeflate.gzip).then(createFileFromBuffer)   
-    })
-  }
+    function readFileAsBuffer(blob) {
+      return new Promise(function(resolve, reject){
+        var fileReader = new window.FileReader()
+        fileReader.onload = function (e) {
+          // IE 11 requires this
+          // http://stackoverflow.com/a/32665193/2835973
+          resolve(fileReader.content || fileReader.result)
+        }
+        fileReader.onerror = function (error){
+          reject(error)
+        }
+        // start reading file
+        fileReader.readAsArrayBuffer(blob)
+      })
+    }
 
-  function readFileAsBuffer(blob) {
-    return new Promise(function(resolve, reject){
-      var fileReader = new window.FileReader()
-      fileReader.onload = function (e) {
-        // IE 11 requires this
-        // http://stackoverflow.com/a/32665193/2835973
-        resolve(fileReader.content || fileReader.result)
-      }
-      fileReader.onerror = function (error){
-        reject(error)
-      }
-      // start reading file
-      fileReader.readAsArrayBuffer(blob)
-    })
-  }
+    function createFileFromBuffer(arrayBuffer) {
+      return new Blob([ arrayBuffer ], { type: 'application/x-gzip' })
+    }
 
-  function createFileFromBuffer(arrayBuffer) {
-    return new Blob([ arrayBuffer ], { type: 'application/x-gzip' })
-  }
-  
-</script>
+  </script>
+</body>
 ```
 [Run Example](https://jsfiddle.net/3dio/39sq5vvy/)
