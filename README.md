@@ -13,17 +13,20 @@ Load JS Modules in browser on demand (basic AMD and CommonJS support)
 </head>
 <body>
   <script>
-    var pakoDeflateUrl = 'https://cdnjs.cloudflare.com/ajax/libs/pako/1.0.5/pako_deflate.min.js'
+    var moduleUrl = 'https://cdnjs.cloudflare.com/ajax/libs/pako/1.0.5/pako_deflate.min.js'
 
-    fetchModule(pakoDeflateUrl).then(function(pakoDeflate){
-      console.log(pakoDeflate)
-    })
+    function compressBuffer (buffer) {
+      return fetchModule(moduleUrl).then(function(module){
+        return module.gzip(buffer)
+      })
+    }
+    
   </script>
 </body>
 ```
 [Run Example](https://jsfiddle.net/3dio/o1xz594y/)
 
-## Example: Gzip a file using deflate module loaded on demand
+## Example: Gzip a text file using deflate module loaded on demand
 
 Using `gzipFile` function will load the `deflate` module from [pako library](https://www.npmjs.com/package/pako) loaded from [cloudflare CDN](https://cdnjs.cloudflare.com/ajax/libs/pako/1.0.5/pako_deflate.min.js) once. Calling `gzipFile` again will reuse the previously loaded module by reference from a promise based caching mechanism.
 
