@@ -4,6 +4,7 @@ Load JS Modules in browser on demand (basic AMD and CommonJS support)
 
 * keeps your codebase small by loading rarely used libraries only when needed
 * simplyfies on demand loading using a decentralized approach
+* modules will be loaded only once
 
 ## Basic Usage:
 ```html
@@ -11,7 +12,9 @@ Load JS Modules in browser on demand (basic AMD and CommonJS support)
   <script src="https://rawgit.com/archilogic-com/fetch-module/master/fetch-module.js"></script>
 </head>
 <script>
-  fetchModule('https://cdnjs.cloudflare.com/ajax/libs/pako/1.0.5/pako_deflate.min.js').then(function(pakoDeflate){
+  var pakoDeflateUrl = 'https://cdnjs.cloudflare.com/ajax/libs/pako/1.0.5/pako_deflate.min.js'
+  
+  fetchModule(pakoDeflateUrl).then(function(pakoDeflate){
     console.log(pakoDeflate)
   })
 </script>
@@ -23,9 +26,10 @@ Load JS Modules in browser on demand (basic AMD and CommonJS support)
   <script src="https://rawgit.com/archilogic-com/fetch-module/master/fetch-module.js"></script>
 </head>
 <script>
+  var pakoDeflateUrl = 'https://cdnjs.cloudflare.com/ajax/libs/pako/1.0.5/pako_deflate.min.js'
 
   function gzipFile (blob) {
-    return fetchModule('https://cdnjs.cloudflare.com/ajax/libs/pako/1.0.5/pako_deflate.min.js').then(function(pakoDeflate){
+    return fetchModule(pakoDeflateUrl).then(function(pakoDeflate){
       return readFileAsArrayBuffer(blob).then(pakoDeflate.gzip).then(createFileFromBuffer)   
     }
   }
