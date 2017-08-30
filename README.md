@@ -30,7 +30,7 @@ Load JS Modules in browser on demand (basic AMD and CommonJS support)
 
   function gzipFile (blob) {
     return fetchModule(pakoDeflateUrl).then(function(pakoDeflate){
-      return readFileAsArrayBuffer(blob).then(pakoDeflate.gzip).then(createFileFromBuffer)   
+      return readFileAsBuffer(blob).then(pakoDeflate.gzip).then(createFileFromBuffer)   
     }
   }
 
