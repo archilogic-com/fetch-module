@@ -4,7 +4,7 @@ Load JS Modules in browser on demand (basic AMD and CommonJS support)
 
 * keeps your codebase small by loading rarely used libraries only when needed
 * simplyfies on demand loading using a decentralized approach
-* modules will be loaded only once
+* modules will be loaded only once and reused transparently
 
 ## Basic Usage:
 ```html
