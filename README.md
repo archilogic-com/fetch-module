@@ -2,8 +2,8 @@
 
 Load JS modules in browser on demand transparently (basic AMD and CommonJS support)
 
-* modules will be loaded only once when your actual function needs them
-* later calls to your function will reuse loaded modules automatically
+* modules will be loaded only when your function actually needs them
+* repeated calls to your function will reuse loaded modules automatically
 * keeps your codebase small by loading rarely used libraries only when needed
 * simplyfies on demand loading using a decentralized approach
 
