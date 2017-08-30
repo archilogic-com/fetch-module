@@ -19,6 +19,7 @@ Load JS Modules in browser on demand (basic AMD and CommonJS support)
   })
 </script>
 ```
+[Run Example](https://jsfiddle.net/3dio/o1xz594y/)
 
 ## Example: Gzip a file using PAKO deflate library (loaded on demand)
 ```html
@@ -57,3 +58,4 @@ Load JS Modules in browser on demand (basic AMD and CommonJS support)
   
 </script>
 ```
+[Run Example](https://jsfiddle.net/3dio/39sq5vvy/)
