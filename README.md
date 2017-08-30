@@ -49,18 +49,20 @@ Using `gzipFile` function will load the `deflate` module from [pako library](htt
 
     // demo
 
+    // load text file
     fetch('https://storage.3d.io/archilogic/test.txt')
       .then(function(response){
         return response.blob()
       })
       .then(gzipFile)
       .then(function(compressedBlob){
+        // hide loading info
+        document.querySelector('#loading').style.display = 'none'
+        // make file downloadable
         var objectUrl = window.URL.createObjectURL(compressedBlob)
-        var loading = document.querySelector('#loading')
-        loading.style.display = 'none'
-        var downloadLink = document.querySelector('#download-link')
-        downloadLink.setAttribute('href', objectUrl)
-        downloadLink.style.display = 'inline'
+        document.querySelector('#download-link').setAttribute('href', objectUrl)
+        // show download link
+        document.querySelector('#download-link').style.display = 'inline'
       })
 
     // methods
