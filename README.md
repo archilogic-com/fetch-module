@@ -1,10 +1,11 @@
 # fetchModule(url)
 
-Load JS Modules in browser on demand (basic AMD and CommonJS support)
+Load JS modules in browser on demand transparently (basic AMD and CommonJS support)
 
+* modules will be loaded only once when your actual function gets called
+* later calls to your function will reuse loaded modules automatically
 * keeps your codebase small by loading rarely used libraries only when needed
 * simplyfies on demand loading using a decentralized approach
-* modules will be loaded only once and reused transparently
 
 ## Basic Usage:
 ```html
