@@ -16,8 +16,8 @@ Load JS Modules in browser on demand (basic AMD and CommonJS support)
     var moduleUrl = 'https://cdnjs.cloudflare.com/ajax/libs/pako/1.0.5/pako_deflate.min.js'
 
     function compressBuffer (buffer) {
-      return fetchModule(moduleUrl).then(function(module){
-        return module.gzip(buffer)
+      return fetchModule(moduleUrl).then(function(compress){
+        return compress.gzip(buffer)
       })
     }
     
