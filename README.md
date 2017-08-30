@@ -31,6 +31,8 @@ Load JS modules in browser on demand transparently (basic AMD and CommonJS suppo
 
 Using `gzipFile` function will load the `deflate` module from [pako library](https://www.npmjs.com/package/pako) loaded from [cloudflare CDN](https://cdnjs.cloudflare.com/ajax/libs/pako/1.0.5/pako_deflate.min.js) once. Calling `gzipFile` again will reuse the previously loaded module by reference from a promise based caching mechanism.
 
+[Run Example](https://jsfiddle.net/3dio/39sq5vvy/)
+
 ```html
 <head>
   <script src="https://rawgit.com/archilogic-com/fetch-module/master/fetch-module.js"></script>
@@ -98,4 +100,3 @@ Using `gzipFile` function will load the `deflate` module from [pako library](htt
   </script>
 </body>
 ```
-[Run Example](https://jsfiddle.net/3dio/39sq5vvy/)
